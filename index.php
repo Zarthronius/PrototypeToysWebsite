@@ -13,3 +13,25 @@ Notes
 •	The use of external libraries is NOT permitted
 •	The code used MUST follow the techniques covered in this module and not any other alternative ones.
 -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">    
+    <title>Home Page</title>    
+</head>
+<body>
+    <header>
+        <h1>Home</h1>
+    </header>
+
+    <?php
+        require_once('functions.php');
+        createNav();
+    ?>
+
+    <main>
+    </main>
+</body>
+</html>
+
