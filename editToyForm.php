@@ -69,16 +69,10 @@ else {
 
             echo "<p>Description <textarea name='description'>{$rowObj->description}</textarea></p>\n
             
-             <p>Toy Price £<input type='number' name='toyPrice' value='{$rowObj->toyPrice}'></p>\n
+             <p>Toy Price £<input type='number' name='toyPrice' step='0.01' value='{$rowObj->toyPrice}'></p>\n
             
             <input type='submit' value='Update Toy'>\n
             </form>\n";
-
-
-
-
-
-
         }
     } catch (Exception $e) {
         echo "<p>Query failed:

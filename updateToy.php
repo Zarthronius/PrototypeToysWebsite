@@ -12,15 +12,15 @@ try {
 
     $toyID = isset($_GET['toyID']) ? $_GET['toyID'] : null;
     $toyName = isset($_GET['toyName']) ? $_GET['toyName'] : null;
-    $manID = isset($_GET['manID ']) ? $_GET['manID '] : null;
-    $catID = isset($_GET['catID ']) ? $_GET['$catID '] : null;
+    $manID = isset($_GET['manID']) ? $_GET['manID'] : null;
+    $catID = isset($_GET['catID']) ? $_GET['catID'] : null;
     $description = isset($_GET['description']) ? $_GET['description'] : null;
     $toyPrice = isset($_GET['toyPrice']) ? $_GET['toyPrice'] : null;
 
-    if (empty($toyID)||empty($toyName)||empty($manID)||empty($catID)||empty($description)||empty($toyPrice)){
+    if (empty($toyID)||empty($toyName)||empty($manID)||empty($catID)||empty($description)||empty($toyPrice)) {
         echo "<h2>Error: Empty Fields</h2>";
         echo "<p>All fields should be completed.</p>";
-        echo "<button><a href='editToyForm.php'>Go Back</a></button>\n</section>\n</main>\n</body>\n</html>";
+        echo "<button><a href='admin.php'>Go Back</a></button>\n</section>\n</main>\n</body>\n</html>";
     }
 
     else {
