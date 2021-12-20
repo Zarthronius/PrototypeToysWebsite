@@ -42,7 +42,7 @@ else {
             $sqlMan = "SELECT manID, manName FROM NTL_manufacturer ORDER BY manName";
             $rsMan = $dbConn->query($sqlMan);
             echo "<p> Manufacturer ";
-            echo "<select name='manufacturerID'>";
+            echo "<select name='manID'>";
             while ($manRecord = $rsMan->fetchObject()) {
                 if ($rowObj->manID == $manRecord->manID) {
                     echo "<option value='{$manRecord->manID}' selected>
@@ -56,7 +56,7 @@ else {
             $sqlCat = "SELECT catID, catDesc FROM NTL_category ORDER BY catDesc";
             $rsCat = $dbConn->query($sqlCat);
             echo "<p>Category ";
-            echo "<select name='categoryID'>";
+            echo "<select name='catID'>";
             while ($catRecord = $rsCat->fetchObject()) {
                 if ($rowObj->catID == $catRecord->catID) {
                     echo "<option value='{$catRecord->catID}' selected>
