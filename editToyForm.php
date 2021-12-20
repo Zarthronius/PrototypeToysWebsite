@@ -35,14 +35,13 @@ else {
             $rowObj = $queryResult->fetchObject();
             echo "<h1>Update '{$rowObj->toyName}'</h1>\n
             <form id='UpdateToy' action='updateToy.php' method='get'>\n
-            Toy ID <input type='text' name='toyID' value='{$toyID}' readonly>\n
-            <br>
-            Toy Name <input type='text' name='toyName' value='{$rowObj->toyName}'>\n
-            <br>";
-            ///////////////////////////////////////////////////////
+            <p>Toy ID <input type='text' name='toyID' value='{$toyID}' readonly></p>\n
+            <p>Toy Name <input type='text' name='toyName' value='{$rowObj->toyName}'></p>\n
+            ";
+
             $sqlMan = "SELECT manID, manName FROM NTL_manufacturer ORDER BY manName";
             $rsMan = $dbConn->query($sqlMan);
-            echo "Manufacturer";
+            echo "<p> Manufacturer ";
             echo "<select name='manufacturerID'>";
             while ($manRecord = $rsMan->fetchObject()) {
                 if ($rowObj->manID == $manRecord->manID) {
@@ -52,12 +51,11 @@ else {
                     echo "<option value='{$manRecord->manID}'>{$manRecord->manName}</option>";
                 }
             }
-            echo "</select>";
-            echo "<br>";
+            echo "</select></p>";
 
             $sqlCat = "SELECT catID, catDesc FROM NTL_category ORDER BY catDesc";
             $rsCat = $dbConn->query($sqlCat);
-            echo "Category";
+            echo "<p>Category ";
             echo "<select name='categoryID'>";
             while ($catRecord = $rsCat->fetchObject()) {
                 if ($rowObj->catID == $catRecord->catID) {
@@ -67,14 +65,20 @@ else {
                     echo"<option value='{$catRecord->catID}'>{$catRecord->catDesc}</option>";
                 }
             }
-            echo "</select>";
+            echo "</select></p>";
 
-            echo "<br>
-            Description <textarea name='description'>{$rowObj->description}</textarea>\n
-            <br>
+            echo "<p>Description <textarea name='description'>{$rowObj->description}</textarea></p>\n
+            
+             <p>Toy Price £<input type='number' name='toyPrice' value='{$rowObj->toyPrice}'></p>\n
+            
             <input type='submit' value='Update Toy'>\n
-        </form>\n";
-            ///////////////////////////////////////////////////////
+            </form>\n";
+
+
+
+
+
+
         }
     } catch (Exception $e) {
         echo "<p>Query failed:
