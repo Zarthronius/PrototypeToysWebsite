@@ -31,50 +31,51 @@ else {
         if ($queryResult === false) {
             echo "<p>Query failed: " . $dbConn->error . "</p>\n</select>\n<\form>\n<\body>\n<\html>";
             exit;
-        }/* else {
+        } else {
             $rowObj = $queryResult->fetchObject();
             echo "<h1>Update '{$rowObj->toyName}'</h1>\n
-        <form id='UpdateMovie' action='updateMovie.php' method='get'>\n
-            Movie ID <input type='text' name='movieID' value='{$movieID}' readonly>\n
+            <form id='UpdateToy' action='updateToy.php' method='get'>\n
+            Toy ID <input type='text' name='toyID' value='{$toyID}' readonly>\n
             <br>
-            Title <input type='text' name='title' value='{$rowObj->title}'>\n
+            Toy Name <input type='text' name='toyName' value='{$rowObj->toyName}'>\n
             <br>";
-
-            $sqlCat = "SELECT categoryID, categoryName from nc_category ORDER BY categoryName";
-            $rsCat = $dbConn->query($sqlCat);
-            echo "Category";
-            echo "<select name='categoryID'>";
-            while ($catRecord = $rsCat->fetchObject()) {
-                if ($rowObj->categoryID == $catRecord->categoryID) {
-                    echo "<option value='{$catRecord->categoryID}' selected>
-               {$catRecord->categoryName}</option>";
+            ///////////////////////////////////////////////////////
+            $sqlMan = "SELECT manID, manName FROM NTL_manufacturer ORDER BY manName";
+            $rsMan = $dbConn->query($sqlMan);
+            echo "Manufacturer";
+            echo "<select name='manufacturerID'>";
+            while ($manRecord = $rsMan->fetchObject()) {
+                if ($rowObj->manID == $manRecord->manID) {
+                    echo "<option value='{$manRecord->manID}' selected>
+               {$manRecord->manName}</option>";
                 } else {
-                    echo "<option value='{$catRecord->categoryID}'>{$catRecord->categoryName}</option>";
+                    echo "<option value='{$manRecord->manID}'>{$manRecord->manName}</option>";
                 }
             }
             echo "</select>";
             echo "<br>";
 
-            $sqlDir = "SELECT directorID, directorName from nc_director ORDER BY directorName";
-            $rsDir = $dbConn->query($sqlDir);
-            echo "Director";
-            echo "<select name='directorID'>";
-            while ($dirRecord = $rsDir->fetchObject()) {
-                if ($rowObj->directorID == $dirRecord->directorID) {
-                    echo "<option value='{$dirRecord->directorID}' selected>
-               {$dirRecord->directorName}</option>";
+            $sqlCat = "SELECT catID, catDesc FROM NTL_category ORDER BY catDesc";
+            $rsCat = $dbConn->query($sqlCat);
+            echo "Category";
+            echo "<select name='categoryID'>";
+            while ($catRecord = $rsCat->fetchObject()) {
+                if ($rowObj->catID == $catRecord->catID) {
+                    echo "<option value='{$catRecord->catID}' selected>
+                {$catRecord->catDesc}</option>";
                 } else {
-                    echo "<option value='{$dirRecord->directorID}'>{$dirRecord->directorName}</option>";
+                    echo"<option value='{$catRecord->catID}'>{$catRecord->catDesc}</option>";
                 }
             }
             echo "</select>";
 
             echo "<br>
-            Notes <textarea name='notes'>{$rowObj->notes}</textarea>\n
+            Description <textarea name='description'>{$rowObj->description}</textarea>\n
             <br>
-            <input type='submit' value='Update Movie'>\n
-        </form>\n";*/
-        
+            <input type='submit' value='Update Toy'>\n
+        </form>\n";
+            ///////////////////////////////////////////////////////
+        }
     } catch (Exception $e) {
         echo "<p>Query failed:
         " . $e->getMessage() . "</p>\n";
