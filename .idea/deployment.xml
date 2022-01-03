@@ -5,7 +5,7 @@
       <paths name="Newnumyspace">
         <serverdata>
           <mappings>
-            <mapping deploy="/public_html/NTL" local="$PROJECT_DIR$" web="/" />
+            <mapping deploy="/public_html/NTL" local="$PROJECT_DIR$" web="/NTL" />
           </mappings>
         </serverdata>
       </paths>

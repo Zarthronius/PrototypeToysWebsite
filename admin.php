@@ -12,7 +12,10 @@ Notes
 •	You should not display system type attributes to the user, they’re of no interest to the user, so make sure you don’t display any of the ids used in the SQL tables, e.g. catID and manID. You will need to use them, of course, in list boxes or as hidden fields etc. in order to link back to other tables but you shouldn’t display them to the user. Check you don’t.
 -->
 
-
+<?php
+ini_set("session.save_path", "/home/unn_w20016567/sessionData");
+session_start();
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -28,22 +31,24 @@ Notes
     echo createNav();
     ?>
     <main>
-    <h2>Toy List</h2>
-    <p>Select a Toy to edit:</p>
     <?php
+    if (check_login()) {
+        echo "<p><a href='logout.php'>Click here to log out</a></p>";
+        echo "<h2>Toy List</h2>";
+        echo "<p>Select a Toy to edit:</p>";
         try {
-        $dbConn = getConnection();
+            $dbConn = getConnection();
 
-        $sqlQuery = "SELECT toyID, toyName, description, catDesc, toyPrice
+            $sqlQuery = "SELECT toyID, toyName, description, catDesc, toyPrice
                     FROM NTL_toys
                     INNER JOIN NTL_category
                     ON NTL_toys.catID = NTL_category.catID
                     ORDER BY toyName";
-       
-        $queryResult = $dbConn->query($sqlQuery);
-            
-        while ($rowObj = $queryResult->fetchObject()) {
-            echo "<div class='toy'>\n
+
+            $queryResult = $dbConn->query($sqlQuery);
+
+            while ($rowObj = $queryResult->fetchObject()) {
+                echo "<div class='toy'>\n
                 <h3 class='name'>\n
                 <a href='editToyForm.php?toyID={$rowObj->toyID}'>{$rowObj->toyName}</a>\n
                 </h3>\n
@@ -52,11 +57,14 @@ Notes
                 <p class='price'><strong>Price:</strong> £{$rowObj->toyPrice}</p>\n
             </div>\n";
             }
+        } catch (Exception $e) {
+            echo "<p>Query failed: " . $e->getMessage() . "</p>\n";
         }
-        catch (Exception $e){
-        echo "<p>Query failed: ".$e->getMessage()."</p>\n";
-        }
-
+    }
+    else {
+        echo "<p>Must be logged in to access this page\n";
+        echo createLoginForm();
+    }
     ?>
     </main>
 </body>

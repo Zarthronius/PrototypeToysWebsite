@@ -13,7 +13,10 @@ Notes
 •	The use of external libraries is NOT permitted
 •	The code used MUST follow the techniques covered in this module and not any other alternative ones.
 -->
-
+<?php
+ini_set("session.save_path", "/home/unn_w20016567/sessionData");
+session_start();
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -24,13 +27,19 @@ Notes
     <header>
         <h1>Home</h1>
     </header>
-
     <?php
-        require_once('functions.php');
-        createNav();
+    require_once('functions.php');
+    echo createNav();
     ?>
-
     <main>
+    <?php
+    if (check_login()){
+        echo "<p>Welcome " . get_session('firstname') . "!</p>";
+        echo "<p><a href='logout.php'>Click here to log out</a></p>";
+    } else {
+        echo createLoginForm();
+    }
+    ?>
     </main>
 </body>
 </html>

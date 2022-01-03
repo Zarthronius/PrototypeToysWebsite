@@ -26,3 +26,62 @@ function createNav(){
 Navigation;
 return $output;
 }
+
+//function to create Login form
+function createLoginForm(){
+    $output = <<<Login
+    <h2>Login</h2>
+    <form method = "post" action = "loginProcess.php">
+        <h3>Username</h3>
+        <input type = "text" name = "username">
+        <h3>Password</h3>
+        <input type = "password" name = "password">
+        <input type = "submit" value = "Logon">
+    </form>
+Login;
+return $output;
+}
+
+//function to create common top sections of web pages (Nav and Login)
+function createTopBodySections()
+{
+    echo createNav();
+    if (check_login() == false) {
+        echo createLoginForm();
+    } else {
+        echo "<p><a href='logout.php'>Click here to log out</a></p>";
+    }
+}
+
+
+
+
+
+
+    ////////////////////////////////////
+    //saves session variable
+    function set_session($key, $value) {
+        // Set key element = value
+        $_SESSION[$key] = $value;
+        return true;
+    }
+
+    function get_session($key) {
+        if (isset($_SESSION['logged-in']) && $_SESSION['logged-in']) {
+            return $_SESSION[$key];
+        }
+        else {
+            //return "ERROR: Unable to get " . $key . " value. ";
+            return false;
+        }
+    }
+
+    function check_login(){
+        $loggedIn = get_session('logged-in');
+        if ($loggedIn == true) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    ////////////////////////////////////
