@@ -1,19 +1,13 @@
 <?php
 ini_set("session.save_path", "/home/unn_w20016567/sessionData");
 session_start();
-?>
-<!doctype html>
-<html lang="en">
-<head>
-    <meta charset="utf-8">
-    <title>Edit Toy</title>
-</head>
-<body>
-<?php
-require_once('functions.php');
-if (check_login()) {
-    echo "<p><a href='logout.php'>Click here to log out</a></p>";
 
+require_once('functions.php');
+echo makePageStart("Edit Toy","stylesheet.css");
+//echo makeHeader("Edit Toy");
+echo startMain();
+
+if (check_login()) {
     $toyID = isset($_GET['toyID']) ? $_GET['toyID'] : null;
 
     if (empty($toyID)){
@@ -41,8 +35,11 @@ if (check_login()) {
                 exit;
             } else {
                 $rowObj = $queryResult->fetchObject();
-                echo "<h1>Update '{$rowObj->toyName}'</h1>\n
-                <form id='UpdateToy' action='updateToy.php' method='get'>\n
+                echo "<h1>Update '{$rowObj->toyName}'</h1>\n";
+                echo createNav();
+                echo makeLogout();
+                //used to be get not post
+                echo "<form id='UpdateToy' action='updateToy.php' method='post'>\n
                 <p>Toy ID <input type='text' name='toyID' value='{$toyID}' readonly></p>\n
                 <p>Toy Name <input type='text' name='toyName' value='{$rowObj->toyName}'></p>\n
                 ";
@@ -83,14 +80,17 @@ if (check_login()) {
                 </form>\n";
             }
         } catch (Exception $e) {
-            echo "<p>Query failed:
-            " . $e->getMessage() . "</p>\n";
+            echo "<p>Whoops! Something went wrong, refresh the page.</p>";
+            log_error($e);
+            //echo "<p>Query failed:
+            //" . $e->getMessage() . "</p>\n";
         }
     }
 } else {
     echo "<p>Must be logged in to access this page\n";
     echo createLoginForm();
 }
+echo endMain();
+echo makeFooter("This is a fictional site for Northumbria Toys Limited.");
+echo makePageEnd();
 ?>
-</body>
-</html>

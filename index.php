@@ -16,31 +16,20 @@ Notes
 <?php
 ini_set("session.save_path", "/home/unn_w20016567/sessionData");
 session_start();
+
+require_once('functions.php');
+echo makePageStart("Home","stylesheet.css");
+echo makeHeader("Home");
+echo makeNavMenu("Pages", array("index.php" => "Home", "admin.php" => "Admin", "credits.php" => "Credits"/*, "games.php" => "Games"*/));
+echo startMain();
+if (check_login()){
+    echo makeLogout();
+    echo "<p>Welcome " . get_session('firstname') . "!</p>";
+} else {
+    echo createLoginForm();
+}
+echo endMain();
+echo makeFooter("This is a fictional site for Northumbria Toys Limited.");
+echo makePageEnd();
 ?>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="utf-8">    
-    <title>Home Page</title>    
-</head>
-<body>
-    <header>
-        <h1>Home</h1>
-    </header>
-    <?php
-    require_once('functions.php');
-    echo createNav();
-    ?>
-    <main>
-    <?php
-    if (check_login()){
-        echo "<p>Welcome " . get_session('firstname') . "!</p>";
-        echo "<p><a href='logout.php'>Click here to log out</a></p>";
-    } else {
-        echo createLoginForm();
-    }
-    ?>
-    </main>
-</body>
-</html>
 

@@ -1,0 +1,30 @@
+/*#gridContainer {
+    display: grid;
+    grid-template-rows:[header] auto [content] auto [footer] auto;
+    grid-template-columns: [nav] 150px [main] 1fr;
+    grid-template-areas:
+    "header header"
+    "nav main"
+    "footer footer";
+}
+
+header {
+    grid-area: header;
+}
+
+nav {
+    grid-area: nav;
+}
+
+main {
+    grid-area: main;
+}
+
+nav, main {
+    margin-top: 10px;
+}
+
+footer {
+    grid-area: footer;
+    text-align: center;
+}*/

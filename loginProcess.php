@@ -78,21 +78,20 @@ function show_errors($errors){
     $errorString .= "<p><a href='index.php'>Click here to try again.</a></p>";
     return $errorString;
 }
-?>
 
-<!doctype html>
-<html lang="en">
-<head>
-    <meta charset="utf-8">
-    <title>Login Process</title>
-</head>
-<body>
-<?php
+require_once('functions.php');
+echo makePageStart("Login Failed","stylesheet.css");
+echo makeHeader("Login Failed");
+//echo makeNavMenu("Pages", array("index.php" => "Home", "admin.php" => "Admin", "credits.php" => "Credits"/*, "games.php" => "Games"*/));
+echo startMain();
+
 list ($input, $errors) = validate_logon();
 
 if (!empty($errors)){
     echo show_errors($errors);
 }
+
+echo endMain();
+echo makeFooter("This is a fictional site for Northumbria Toys Limited.");
+echo makePageEnd();
 ?>
-</body>
-</html>

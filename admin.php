@@ -15,57 +15,48 @@ Notes
 <?php
 ini_set("session.save_path", "/home/unn_w20016567/sessionData");
 session_start();
-?>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="utf-8">    
-    <title>Admin</title>    
-</head>
-<body>
-    <header>
-      <h1>Admin</h1>
-    </header>
-    <?php
-    require_once('functions.php');
-    echo createNav();
-    ?>
-    <main>
-    <?php
-    if (check_login()) {
-        echo "<p><a href='logout.php'>Click here to log out</a></p>";
-        echo "<h2>Toy List</h2>";
-        echo "<p>Select a Toy to edit:</p>";
-        try {
-            $dbConn = getConnection();
 
-            $sqlQuery = "SELECT toyID, toyName, description, catDesc, toyPrice
-                    FROM NTL_toys
-                    INNER JOIN NTL_category
-                    ON NTL_toys.catID = NTL_category.catID
-                    ORDER BY toyName";
+require_once('functions.php');
+echo makePageStart("Admin","stylesheet.css");
+echo makeHeader("Admin");
+echo makeNavMenu("Pages", array("index.php" => "Home", "admin.php" => "Admin", "credits.php" => "Credits"/*, "games.php" => "Games"*/));
+echo startMain();
+if (check_login()) {
+    echo makeLogout();
+    echo "<h2>Toy List</h2>";
+    echo "<p>Select a Toy to edit:</p>";
+    try {
+        $dbConn = getConnection();
 
-            $queryResult = $dbConn->query($sqlQuery);
+        $sqlQuery = "SELECT toyID, toyName, description, catDesc, toyPrice
+                FROM NTL_toys
+                INNER JOIN NTL_category
+                ON NTL_toys.catID = NTL_category.catID
+                ORDER BY toyName";
 
-            while ($rowObj = $queryResult->fetchObject()) {
-                echo "<div class='toy'>\n
-                <h3 class='name'>\n
-                <a href='editToyForm.php?toyID={$rowObj->toyID}'>{$rowObj->toyName}</a>\n
-                </h3>\n
-                <p class='description'><strong>Description:</strong> {$rowObj->description}</p>\n
-                <p class='categoryDescription'><strong>Category Description:</strong> {$rowObj->catDesc}</p>\n
-                <p class='price'><strong>Price:</strong> £{$rowObj->toyPrice}</p>\n
-            </div>\n";
-            }
-        } catch (Exception $e) {
-            echo "<p>Query failed: " . $e->getMessage() . "</p>\n";
+        $queryResult = $dbConn->query($sqlQuery);
+
+        while ($rowObj = $queryResult->fetchObject()) {
+            echo "<div class='toy'>\n
+            <h3 class='name'>\n
+            <a href='editToyForm.php?toyID={$rowObj->toyID}'>{$rowObj->toyName}</a>\n
+            </h3>\n
+            <p class='description'><strong>Description:</strong> {$rowObj->description}</p>\n
+            <p class='categoryDescription'><strong>Category Description:</strong> {$rowObj->catDesc}</p>\n
+            <p class='price'><strong>Price:</strong> £{$rowObj->toyPrice}</p>\n
+        </div>\n";
         }
+    } catch (Exception $e) {
+        echo "<p>Whoops! Something went wrong, refresh the page.</p>";
+        log_error($e);
+        //echo "<p>Query failed: " . $e->getMessage() . "</p>\n";
     }
-    else {
-        echo "<p>Must be logged in to access this page\n";
-        echo createLoginForm();
-    }
-    ?>
-    </main>
-</body>
-</html>
+}
+else {
+    echo "<p>Must be logged in to access this page\n";
+    echo createLoginForm();
+}
+echo endMain();
+echo makeFooter("This is a fictional site for Northumbria Toys Limited.");
+echo makePageEnd();
+?>

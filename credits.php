@@ -7,37 +7,28 @@ Please credit ALL sources using the Harvard referencing method that you use for 
 <?php
 ini_set("session.save_path", "/home/unn_w20016567/sessionData");
 session_start();
+
+require_once('functions.php');
+echo makePageStart("Credits","stylesheet.css");
+echo makeHeader("Credits");
+echo makeNavMenu("Pages", array("index.php" => "Home", "admin.php" => "Admin", "credits.php" => "Credits"/*, "games.php" => "Games"*/));
+echo startMain();
+if (check_login()){
+    echo makeLogout();
+    } else {
+    echo createLoginForm();
+    }
 ?>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="utf-8">    
-    <title>Credits</title>    
-</head>
-<body>
-    <header>
-        <h1>Credits</h1>
-    </header>
-    <?php
-        require_once('functions.php');
-        echo createNav();
-    ?>
-    <main>
-    <?php if (check_login()){
-        echo "<p><a href='logout.php'>Click here to log out</a></p>";
-        } else {
-        echo createLoginForm();
-        }
-    ?>
-    <h2>ME:</h2>
-    <p><strong>Name:</strong> Zackary Allen</p>
-    <p><strong>Student ID:</strong> W20016567</p>
-    <h2>References</h2>
-    <p>Reference here</p>
-    <p>Reference here</p>
-    <p>Reference here</p>
-    <p>...</p>
-    <!--<p><a href="index.php">Go to Home page</a></p>-->
-    </main>
-</body>
-</html>
+<h2>ME:</h2>
+<p><strong>Name:</strong> Zackary Allen</p>
+<p><strong>Student ID:</strong> W20016567</p>
+<h2>References</h2>
+<p>Reference here</p>
+<p>Reference here</p>
+<p>Reference here</p>
+<p>...</p>
+<?php
+echo endMain();
+echo makeFooter("This is a fictional site for Northumbria Toys Limited.");
+echo makePageEnd();
+?>
