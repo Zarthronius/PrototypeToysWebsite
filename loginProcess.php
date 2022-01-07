@@ -50,8 +50,8 @@ function validate_logon(){
                     set_session('firstname', $user->firstname);
                     set_session('surname', $user->surname);
 
-                    header('Location: restricted.php'); //auto redirects
-                    echo "<a href='restricted.php'>Click here if not redirected automatically.</a>"; //Only occurs if not automatically redirected
+                    header('Location: index.php'); //auto redirects
+                    echo "<a href='index.php'>Click here if not redirected automatically.</a>"; //Only occurs if not automatically redirected
                 }
                 else {
                     array_push($errors, "Incorrect username or password");

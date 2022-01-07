@@ -64,8 +64,8 @@ function validate_form()
 
     if( empty($description) ) {
         array_push($errors, "No description provided.");
-    } elseif(strlen($description) > 255) {
-        array_push($errors, "Description must be less than 256 characters.");
+    } elseif(strlen($description) > 1999) {
+        array_push($errors, "Description must be less than 2000 characters.");
     }
 
     if( empty($toyPrice) ) {
@@ -83,7 +83,7 @@ function validate_form()
 function show_errors($errors){
     $output = '';
     foreach ($errors as $error) {
-        $output .= "<p>Error: " . $error . "</p>";
+        $output .= "<p><strong>Error:</strong> " . $error . "</p>";
     }
     $output .= "<a href=admin.php>Go Back</a>\n";
     return $output;
@@ -112,12 +112,29 @@ function process_form($input){
         )
     );
 
-    $invoice = "<p>Toy: " . $input['toyName'] .
-        "</p>\nManufacturer: " . $input['manID'] .
-        "</p>\nCategory: " . $input['catID'] .
-        "</p>\nDescription: " . $input['description'] .
-        "</p>\nToy Price: £" . $input['toyPrice'] .
-        "</p>";
+    $sqlQuery = "SELECT catDesc, manName
+                FROM NTL_toys
+                INNER JOIN NTL_category
+                ON NTL_toys.catID = NTL_category.catID
+                INNER JOIN NTL_manufacturer
+                ON NTL_toys.manID = NTL_manufacturer.manID
+                WHERE toyID = :toyID";
+
+    $result = $dbConn->prepare($sqlQuery);
+    $result->execute(array(
+            ':toyID' =>  $input['toyID']
+        )
+    );
+
+    $toy = $result->fetchObject();
+
+
+
+    $invoice = "<p><strong>Toy:</strong> " . $input['toyName'] . "</p>\n" .
+        "<p><strong>Manufacturer:</strong> {$toy->manName} </p>\n" .
+        "<p><strong>Category:</strong>  {$toy->catDesc}</p>\n" .
+        "<p><strong>Description:</strong> " . $input['description'] . "</p>\n" .
+        "<p><strong>Toy Price:</strong> £" . $input['toyPrice'] . "</p>\n";
     return ($invoice);
 }
 
@@ -128,12 +145,20 @@ try {
 
     list($input, $errors) = validate_form();
     if ($errors) {
+        echo makeHeader("Error Updating");
+        echo startMain();
+        echo "<h2>Errors</h2>";
         echo show_errors($errors);
+        echo endMain();
     }
     else {
-        echo "<h2>SUCCESSFULLY UPDATED</h2>";
+        echo makeHeader("Successfully Updated");
+        echo makeNavMenu("Pages", array("index.php" => "Home", "admin.php" => "Admin", "orderToysForm.php" => "Order", "credits.php" => "Credits"));
+        echo startMain();
+        echo "<h2>Details of Update</h2>";
         echo process_form($input);
         echo "<p>Return to <a href='index.php'>Home</a>";
+        echo endMain();
     }
 
 } catch (Exception $e){

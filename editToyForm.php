@@ -4,10 +4,15 @@ session_start();
 
 require_once('functions.php');
 echo makePageStart("Edit Toy","stylesheet.css");
-//echo makeHeader("Edit Toy");
-echo startMain();
+echo makeHeader("Edit Toy");
+echo makeNavMenu("Pages", array("index.php" => "Home", "admin.php" => "Admin", "orderToysForm.php" => "Order", "credits.php" => "Credits"));
 
+echo startAside();
 if (check_login()) {
+    echo makeLogout();
+    echo endAside();
+
+    echo startMain();
     $toyID = isset($_GET['toyID']) ? $_GET['toyID'] : null;
 
     if (empty($toyID)){
@@ -20,8 +25,6 @@ if (check_login()) {
          * @var $dbConn mysqli
          */
         try {
-
-            require_once("functions.php");
             $dbConn = getConnection();
 
             $sql = "SELECT toyName, description, manID, catID, toyPrice
@@ -35,10 +38,8 @@ if (check_login()) {
                 exit;
             } else {
                 $rowObj = $queryResult->fetchObject();
-                echo "<h1>Update '{$rowObj->toyName}'</h1>\n";
-                echo createNav();
-                echo makeLogout();
-                //used to be get not post
+                echo "<h2>Update '{$rowObj->toyName}'</h2>\n";
+
                 echo "<form id='UpdateToy' action='updateToy.php' method='post'>\n
                 <p>Toy ID <input type='text' name='toyID' value='{$toyID}' readonly></p>\n
                 <p>Toy Name <input type='text' name='toyName' value='{$rowObj->toyName}'></p>\n
@@ -82,13 +83,14 @@ if (check_login()) {
         } catch (Exception $e) {
             echo "<p>Whoops! Something went wrong, refresh the page.</p>";
             log_error($e);
-            //echo "<p>Query failed:
-            //" . $e->getMessage() . "</p>\n";
         }
     }
 } else {
-    echo "<p>Must be logged in to access this page\n";
     echo createLoginForm();
+    echo endAside();
+    echo startMain();
+    echo "<h2>Login Required</h2>";
+    echo "<p>Must be logged in to access this page\n";
 }
 echo endMain();
 echo makeFooter("This is a fictional site for Northumbria Toys Limited.");

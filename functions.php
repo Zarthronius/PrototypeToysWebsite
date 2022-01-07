@@ -12,25 +12,9 @@ function getConnection(){
     }
 }
 
-//function to create a Navigation bar
-function createNav(){
-    $output = <<<Navigation
-    <nav>
-    <h2>Pages</h2>
-    <ul id="main-nav"> <!--Navigation links-->
-        <li><a href="index.php" accesskey = "h">Home</a></li>
-        <li><a href="admin.php" accesskey = "a">Admin</a></li>
-        <li><a href="credits.php" accesskey= "c">Credits</a></li>
-    </ul>
-    </nav>
-Navigation;
-return $output;
-}
-
 //function to create Login form
 function createLoginForm(){
     $output = <<<Login
-    <aside>
     <h2>Login</h2>
     <form method = "post" action = "loginProcess.php">
         <h3>Username</h3>
@@ -39,22 +23,9 @@ function createLoginForm(){
         <input type = "password" name = "password">
         <input type = "submit" value = "Logon">
     </form>
-    </aside>
 Login;
 return $output;
 }
-
-//function to create common top sections of web pages (Nav and Login)
-/*function createTopBodySections()
-{
-    echo createNav();
-    if (check_login() == false) {
-        echo createLoginForm();
-    } else {
-        echo "<p><a href='logout.php'>Click here to log out</a></p>";
-    }
-}*/
-
 
 //saves session variable
 function set_session($key, $value) {
@@ -124,6 +95,14 @@ NAVMENU;
     return $navMenuContent;
 }
 
+function startAside() {
+    return "<aside>\n";
+}
+
+function endAside() {
+    return "</aside>\n";
+}
+
 function startMain() {
     return "<main>\n";
 }
@@ -131,10 +110,8 @@ function startMain() {
 function makeLogout() {
     $username = get_session('username');
     $output = <<<LOGOUT
-    <aside>
-    <p>Logged in as: {$username}!</p>
+    <p>Logged in as: <strong>{$username}</strong></p>
     <p><a href='logout.php'>Click here to log out</a></p>
-    </aside>
 LOGOUT;
     return $output;
 }

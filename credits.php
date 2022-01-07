@@ -12,11 +12,13 @@ require_once('functions.php');
 echo makePageStart("Credits","stylesheet.css");
 echo makeHeader("Credits");
 echo makeNavMenu("Pages", array("index.php" => "Home", "admin.php" => "Admin", "orderToysForm.php" => "Order", "credits.php" => "Credits"));
+echo startAside();
 if (check_login()){
     echo makeLogout();
     } else {
     echo createLoginForm();
     }
+echo endAside();
 echo startMain();
 ?>
 <h2>ME:</h2>
