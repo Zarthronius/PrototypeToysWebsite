@@ -20,14 +20,17 @@ session_start();
 require_once('functions.php');
 echo makePageStart("Home","stylesheet.css");
 echo makeHeader("Home");
-echo makeNavMenu("Pages", array("index.php" => "Home", "admin.php" => "Admin", "credits.php" => "Credits"/*, "games.php" => "Games"*/));
-echo startMain();
+echo makeNavMenu("Pages", array("index.php" => "Home", "admin.php" => "Admin", "orderToysForm.php" => "Order", "credits.php" => "Credits"));
+
 if (check_login()){
     echo makeLogout();
+    echo startMain();
     echo "<p>Welcome " . get_session('firstname') . "!</p>";
 } else {
     echo createLoginForm();
+    echo startMain();
 }
+
 echo endMain();
 echo makeFooter("This is a fictional site for Northumbria Toys Limited.");
 echo makePageEnd();

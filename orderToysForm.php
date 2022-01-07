@@ -10,10 +10,15 @@ You MAY modify the page to add your own navigation menu and link to your own sty
 <head>
 	<meta charset="UTF-8">
 	<title>Order Toys</title>
+    <link href="stylesheet.css" rel="stylesheet" type="text/css">
+    <script type="text/javascript" src="orderToysJS.js"></script>
 </head>
 <body>
 <h1>Order Toys</h1>
-
+<?php
+require_once('functions.php');
+echo makeNavMenu("Pages", array("index.php" => "Home", "admin.php" => "Admin", "orderToysForm.php" => "Order", "credits.php" => "Credits"));
+?>
 <form id="orderForm" action="javascript:alert('form submitted');" method="get">
 	<section id="orderToys">
 		<h2>Select Toys</h2>

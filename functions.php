@@ -30,6 +30,7 @@ return $output;
 //function to create Login form
 function createLoginForm(){
     $output = <<<Login
+    <aside>
     <h2>Login</h2>
     <form method = "post" action = "loginProcess.php">
         <h3>Username</h3>
@@ -38,6 +39,7 @@ function createLoginForm(){
         <input type = "password" name = "password">
         <input type = "submit" value = "Logon">
     </form>
+    </aside>
 Login;
 return $output;
 }
@@ -127,7 +129,14 @@ function startMain() {
 }
 
 function makeLogout() {
-    return "<p><a href='logout.php'>Click here to log out</a></p>";
+    $username = get_session('username');
+    $output = <<<LOGOUT
+    <aside>
+    <p>Logged in as: {$username}!</p>
+    <p><a href='logout.php'>Click here to log out</a></p>
+    </aside>
+LOGOUT;
+    return $output;
 }
 
 function endMain() {

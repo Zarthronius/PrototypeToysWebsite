@@ -11,13 +11,13 @@ session_start();
 require_once('functions.php');
 echo makePageStart("Credits","stylesheet.css");
 echo makeHeader("Credits");
-echo makeNavMenu("Pages", array("index.php" => "Home", "admin.php" => "Admin", "credits.php" => "Credits"/*, "games.php" => "Games"*/));
-echo startMain();
+echo makeNavMenu("Pages", array("index.php" => "Home", "admin.php" => "Admin", "orderToysForm.php" => "Order", "credits.php" => "Credits"));
 if (check_login()){
     echo makeLogout();
     } else {
     echo createLoginForm();
     }
+echo startMain();
 ?>
 <h2>ME:</h2>
 <p><strong>Name:</strong> Zackary Allen</p>

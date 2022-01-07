@@ -1,11 +1,11 @@
-/*#gridContainer {
+#gridContainer {
     display: grid;
     grid-template-rows:[header] auto [content] auto [footer] auto;
-    grid-template-columns: [nav] 150px [main] 1fr;
+    grid-template-columns: [nav] 150px [main] 1fr [aside] 200px;
     grid-template-areas:
-    "header header"
-    "nav main"
-    "footer footer";
+    "header header header"
+    "nav main aside"
+    "footer footer footer";
 }
 
 header {
@@ -20,11 +20,15 @@ main {
     grid-area: main;
 }
 
-nav, main {
+nav, main, aside {
     margin-top: 10px;
+}
+
+aside {
+    grid-area: aside;
 }
 
 footer {
     grid-area: footer;
     text-align: center;
-}*/
+}

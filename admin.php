@@ -19,10 +19,10 @@ session_start();
 require_once('functions.php');
 echo makePageStart("Admin","stylesheet.css");
 echo makeHeader("Admin");
-echo makeNavMenu("Pages", array("index.php" => "Home", "admin.php" => "Admin", "credits.php" => "Credits"/*, "games.php" => "Games"*/));
-echo startMain();
+echo makeNavMenu("Pages", array("index.php" => "Home", "admin.php" => "Admin", "orderToysForm.php" => "Order", "credits.php" => "Credits"));
 if (check_login()) {
     echo makeLogout();
+    echo startMain();
     echo "<h2>Toy List</h2>";
     echo "<p>Select a Toy to edit:</p>";
     try {
@@ -53,8 +53,10 @@ if (check_login()) {
     }
 }
 else {
-    echo "<p>Must be logged in to access this page\n";
     echo createLoginForm();
+    echo startMain();
+    echo "<h2>Login Required</h2>";
+    echo "<p>Must be logged in to access this page\n";
 }
 echo endMain();
 echo makeFooter("This is a fictional site for Northumbria Toys Limited.");
