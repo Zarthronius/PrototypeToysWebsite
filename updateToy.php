@@ -1,5 +1,4 @@
 <?php
-
 function validate_form()
 {
     $input = array();

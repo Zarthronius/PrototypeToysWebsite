@@ -47,7 +47,7 @@ if (check_login()) {
 
                 $sqlMan = "SELECT manID, manName FROM NTL_manufacturer ORDER BY manName";
                 $rsMan = $dbConn->query($sqlMan);
-                echo "<p> Manufacturer ";
+                echo "<p>Manufacturer ";
                 echo "<select name='manID'>";
                 while ($manRecord = $rsMan->fetchObject()) {
                     if ($rowObj->manID == $manRecord->manID) {
