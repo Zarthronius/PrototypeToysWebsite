@@ -3,6 +3,7 @@ ini_set("session.save_path", "/home/unn_w20016567/sessionData");
 session_start();
 
 function validate_logon(){
+    //initialise arrays
     $input = array();
     $errors = array();
 
@@ -13,8 +14,8 @@ function validate_logon(){
         ? $_POST['password']: null;
     $input['password'] = trim($password);
 
-    if (empty($username) || empty($password)) {
-        echo "<p>You need to provide a username and a password. Please try <a href='index.php'>again</a>.</p>\n";
+    if (empty($input['username']) || empty($input['password'])) {
+        array_push($errors, "You need to provide a username and a password.");
         session_destroy(); //deletes created blank session
     } else {
         try {
@@ -27,7 +28,7 @@ function validate_logon(){
             require_once("functions.php");
             $dbConn = getConnection();
 
-            /* Query the users database table to get the password hash for the username entered by the user, using a PDO named placeholder for the username */
+            // Queries DB for password hash for username given by user
             $querySQL = "SELECT passwordHash, firstname, surname FROM NTL_users 
                         WHERE username = :username";
 
@@ -35,63 +36,78 @@ function validate_logon(){
             $stmt = $dbConn->prepare($querySQL);
 
             // Execute the query using PDO
-            $stmt->execute(array(':username' => $username));
-
-            /* Check if a record was returned by the query. If yes, then there was a username matching what was entered in the logon form, and we can test (we will add code to shortly) to see if the password entered in the logon form was correct. Otherwise, indicate an error. */
+            $stmt->execute(array(':username' => $input['username']));
 
             $user = $stmt->fetchObject();
+
+            // Checks if query was successful
             if ($user) {
-                // Add code to verify the password attempt here (see below)
-                if (password_verify($password, $user->passwordHash)) {
-                    echo "Login was successful.";
+                // Verification of password attempt
+                if (password_verify($input['password'], $user->passwordHash)) {
+                    echo "<h2>Login Successful</h2>";
 
                     set_session('logged-in', true);
-                    set_session('username', $username);
+                    set_session('username', $input['username']);
                     set_session('firstname', $user->firstname);
                     set_session('surname', $user->surname);
 
                     header('Location: index.php'); //auto redirects
+
                     echo "<a href='index.php'>Click here if not redirected automatically.</a>"; //Only occurs if not automatically redirected
                 }
+                // in case of any issues with logging in, errors appended to $error array
                 else {
                     array_push($errors, "Incorrect username or password");
                 }
             }
             else {
-                /* Add code to set a message to say the username or password were incorrect. Don’t say which. */
                 array_push($errors, "Incorrect username or password");
             }
         } catch (Exception $e) {
             array_push($errors, "There was a problem: " . $e->getMessage());
         }
-        return array ($input, $errors);
     }
-    return false;
+    return array ($input, $errors);
 }
 
 //converts error array to a string and returns it
 function show_errors($errors){
     $errorString = '';
     for ($i = 0; $i < sizeof($errors); $i++){
-        $errorString .= "<p>Error: " . $errors[$i] . "</p>";
+        $errorString .= "<p><strong>Error:</strong> " . $errors[$i] . "</p>";
     }
-    $errorString .= "<p><a href='index.php'>Click here to try again.</a></p>";
     return $errorString;
 }
 
-require_once('functions.php');
-echo makePageStart("Login Failed","stylesheet.css");
-echo makeHeader("Login Failed");
-//echo makeNavMenu("Pages", array("index.php" => "Home", "admin.php" => "Admin", "credits.php" => "Credits"/*, "games.php" => "Games"*/));
-echo startMain();
+try {
+    require_once('functions.php');
+    echo makePageStart("Login", "stylesheet.css");
+    echo makeHeader("Login");
+    echo makeNavMenu("Pages", array("index.php" => "Home", "admin.php" => "Admin", "orderToysForm.php" => "Order", "credits.php" => "Credits"));
 
-list ($input, $errors) = validate_logon();
 
-if (!empty($errors)){
-    echo show_errors($errors);
+    echo startMain();
+    list ($input, $errors) = validate_logon();
+    // Display errors if found
+    if (!empty($errors)) {
+        echo "<h2>Login Failed</h2>\n";
+        echo show_errors($errors);
+    }
+    echo endMain();
+
+    echo startAside();
+    // Login or logout options based on success of login
+    if (!empty($errors)) {
+        echo createLoginForm();
+    } else {
+        echo makeLogout();
+    }
+    echo endAside();
+
+    echo makeFooter("This is a fictional site for Northumbria Toys Limited.");
+    echo makePageEnd();
+} catch (Exception $e) {
+    echo "<p>Whoops! Something went wrong, refresh the page.</p>";
+    log_error($e);
 }
-
-echo endMain();
-echo makeFooter("This is a fictional site for Northumbria Toys Limited.");
-echo makePageEnd();
 ?>

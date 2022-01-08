@@ -25,5 +25,4 @@ function getJSONOffer($dbConn) {
 		throw new Exception("problem: " . $e->getMessage());
 	}
 }
-
 ?>

@@ -1,5 +1,5 @@
 <?php
-//function to connect to database
+// Connects to database
 function getConnection(){
     try {
         $connection = new PDO("mysql:host=localhost;dbname=unn_w20016567","unn_w20016567","UcigE");
@@ -12,7 +12,7 @@ function getConnection(){
     }
 }
 
-//function to create Login form
+// Creates Login form
 function createLoginForm(){
     $output = <<<Login
     <h2>Login</h2>
@@ -27,13 +27,14 @@ Login;
 return $output;
 }
 
-//saves session variable
+// Saves session variable
 function set_session($key, $value) {
     // Set key element = value
     $_SESSION[$key] = $value;
     return true;
 }
 
+// Retrieves session variable
 function get_session($key) {
     if (isset($_SESSION['logged-in']) && $_SESSION['logged-in']) {
         return $_SESSION[$key];
@@ -43,6 +44,7 @@ function get_session($key) {
     }
 }
 
+// Returns true if logged in, otherwise returns false
 function check_login(){
     $loggedIn = get_session('logged-in');
     if ($loggedIn == true) {
@@ -52,6 +54,7 @@ function check_login(){
     }
 }
 
+// Generates start of page including head, metadata, body and div openings
 function makePageStart($title, $stylesheet) {
 	$pageStartContent = <<<PAGESTART
 	<!doctype html>
@@ -68,6 +71,7 @@ PAGESTART;
 	return $pageStartContent;
 }
 
+// Generates header populated with parameter input
 function makeHeader($header){
 	$headContent = <<<HEAD
 		<header>
@@ -78,6 +82,7 @@ HEAD;
 	return $headContent;
 }
 
+// Creates NavMenu using parameters to populate header and links
 function makeNavMenu($navMenuHeader, $links) {
     $menu = "";
     foreach ($links as $key=>$value){
@@ -107,15 +112,18 @@ function startMain() {
     return "<main>\n";
 }
 
+// Displays username from session data and logout option
 function makeLogout() {
     $username = get_session('username');
     $output = <<<LOGOUT
     <p>Logged in as: <strong>{$username}</strong></p>
     <p><a href='logout.php'>Click here to log out</a></p>
 LOGOUT;
+    $output .= "\n";
     return $output;
 }
 
+// Creates login or logout option depending on whether user is logged in
 function createLoginLogout() {
     if (check_login()) {
         return makeLogout();
@@ -128,6 +136,7 @@ function endMain() {
     return "</main>\n";
 }
 
+// Creates footer with provided footer text
 function makeFooter($footer) {
     $footContent = <<<FOOT
     <footer>
@@ -138,27 +147,33 @@ FOOT;
     return $footContent;
 }
 
+// Closing tags for page
 function makePageEnd() {
     return "</div>\n</body>\n</html>";
 }
 
+// Default exception handler
 function exceptionHandler ($e) {
     echo "<p><strong>Problem occured</strong></p>";
     log_error($e);
 }
 
+// Sets default exception handler
 set_exception_handler('exceptionHandler');
 
+// Default Error Handler
 function errorHandler ($errno, $errstr, $errfile, $errline) {
-// check error isn’t excluded by server settings
+// Checks error isn’t excluded by server settings
     if(!(error_reporting() & $errno)) {
         return;
     }
     throw new ErrorException($errstr, $errno, 0, $errfile, $errline);
 }
 
+// Sets default error handler
 set_error_handler('errorHandler');
 
+// logs error to error_log_file.log with time and error message. Can be read by opening readErrors.php page.
 function log_error ($e) {
     $fileHandle = fopen("error_log_file.log", "ab" );
 

@@ -8,13 +8,14 @@ echo makeHeader("Edit Toy");
 echo makeNavMenu("Pages", array("index.php" => "Home", "admin.php" => "Admin", "orderToysForm.php" => "Order", "credits.php" => "Credits"));
 
 echo startAside();
-if (check_login()) {
+if (check_login()) { // Only allows access if login was successful
     echo makeLogout();
     echo endAside();
 
     echo startMain();
-    $toyID = isset($_GET['toyID']) ? $_GET['toyID'] : null;
+    $toyID = isset($_GET['toyID']) ? $_GET['toyID'] : null; // Checks toyID was provided through URL
 
+    // Requires user to return to admin.php if no toyID provided
     if (empty($toyID)){
         echo "<p>No toy chosen. Please select a toy</p>\n
         <a href='admin.php'>Go Back</a>\n";
@@ -27,6 +28,7 @@ if (check_login()) {
         try {
             $dbConn = getConnection();
 
+            // SQL Query to retrieve relevant toy information
             $sql = "SELECT toyName, description, manID, catID, toyPrice
                 FROM NTL_toys
                 WHERE toyID = $toyID";
@@ -36,7 +38,7 @@ if (check_login()) {
             if ($queryResult === false) {
                 echo "<p>Query failed: " . $dbConn->error . "</p>\n</select>\n<\form>\n<\body>\n<\html>";
                 exit;
-            } else {
+            } else { // If query successful, populate appropriate fields
                 $rowObj = $queryResult->fetchObject();
                 echo "<h2>Update '{$rowObj->toyName}'</h2>\n";
 
@@ -45,6 +47,7 @@ if (check_login()) {
                 <p>Toy Name <input type='text' name='toyName' value='{$rowObj->toyName}'></p>\n
                 ";
 
+                // Populates Manufacturer field with manName using manID
                 $sqlMan = "SELECT manID, manName FROM NTL_manufacturer ORDER BY manName";
                 $rsMan = $dbConn->query($sqlMan);
                 echo "<p>Manufacturer ";
@@ -59,6 +62,7 @@ if (check_login()) {
                 }
                 echo "</select></p>";
 
+                //  Populates Category field with catDesc using catID
                 $sqlCat = "SELECT catID, catDesc FROM NTL_category ORDER BY catDesc";
                 $rsCat = $dbConn->query($sqlCat);
                 echo "<p>Category ";
@@ -85,7 +89,7 @@ if (check_login()) {
             log_error($e);
         }
     }
-} else {
+} else { //User unable to access page if login failed and is prompted to do so
     echo createLoginForm();
     echo endAside();
     echo startMain();

@@ -1,9 +1,11 @@
 <?php
 function validate_form()
 {
+    //create input/errors file
     $input = array();
     $errors = array();
 
+    //Checks each value set and adds to input array
     $toyID = filter_has_var(INPUT_POST, 'toyID')
         ? $_POST['toyID'] : null;
     $input['toyID'] = trim($toyID);
@@ -16,6 +18,7 @@ function validate_form()
         ? $_POST['manID'] : null;
     $input['manID'] = trim($manID);
 
+    // Checks whether provided manID is in NTL_manufacturer
     $queryMan = "SELECT manID FROM NTL_manufacturer WHERE manID = :manID";
     $dbConn = getConnection();
     $stmt = $dbConn->prepare($queryMan);
@@ -26,6 +29,7 @@ function validate_form()
         ? $_POST['catID'] : null;
     $input['catID'] = trim($catID);
 
+    // Checks whether provided catID is in NTL_category
     $queryCat = "SELECT catID FROM NTL_category WHERE catID = :catID";
     $stmt = $dbConn->prepare($queryCat);
     $stmt->execute(array(':catID' => $catID));
@@ -39,6 +43,7 @@ function validate_form()
         ? $_POST['toyPrice'] : null;
     $input['toyPrice'] = trim($toyPrice);
 
+    // Appends to $errors if any empty fields
     if( empty($toyID) ) {
         array_push($errors, "No toy selected.");
     }
@@ -79,6 +84,7 @@ function validate_form()
     return array ($input, $errors);
 }
 
+// Function to display errors to page
 function show_errors($errors){
     $output = '';
     foreach ($errors as $error) {
@@ -88,9 +94,11 @@ function show_errors($errors){
     return $output;
 }
 
+// Function to process form with given inputs
 function process_form($input){
     $dbConn = getConnection();
 
+    // Query to update relevant toyID
     $sqlUpdate = "UPDATE NTL_toys SET
                     toyName = :toyName,
                     manID = :manID,
@@ -99,8 +107,10 @@ function process_form($input){
                     toyPrice = :toyPrice
                     WHERE toyID = :toyID";
 
+    // Prepares query
     $stmt = $dbConn->prepare($sqlUpdate);
 
+    // Executes query
     $stmt->execute(array(
             ':toyName' => $input['toyName'],
             ':manID' => $input['manID'],
@@ -111,6 +121,7 @@ function process_form($input){
         )
     );
 
+    // Retrieves catDesc and manName using catID and manID
     $sqlQuery = "SELECT catDesc, manName
                 FROM NTL_toys
                 INNER JOIN NTL_category
@@ -119,16 +130,18 @@ function process_form($input){
                 ON NTL_toys.manID = NTL_manufacturer.manID
                 WHERE toyID = :toyID";
 
+    // Prepares and executes query
     $result = $dbConn->prepare($sqlQuery);
     $result->execute(array(
             ':toyID' =>  $input['toyID']
         )
     );
 
+    // Variable containing retrieved data from query
     $toy = $result->fetchObject();
 
 
-
+    // Summary of all changed data
     $invoice = "<p><strong>Toy:</strong> " . $input['toyName'] . "</p>\n" .
         "<p><strong>Manufacturer:</strong> {$toy->manName} </p>\n" .
         "<p><strong>Category:</strong>  {$toy->catDesc}</p>\n" .
@@ -143,14 +156,15 @@ try {
     echo makePageStart("Update Toy","stylesheet.css");
 
     list($input, $errors) = validate_form();
-    if ($errors) {
+    if ($errors) { // Displays errors if any found
         echo makeHeader("Error Updating");
+        echo makeNavMenu("Pages", array("index.php" => "Home", "admin.php" => "Admin", "orderToysForm.php" => "Order", "credits.php" => "Credits"));
         echo startMain();
         echo "<h2>Errors</h2>";
         echo show_errors($errors);
         echo endMain();
     }
-    else {
+    else { // Executes update and displays invoice on success
         echo makeHeader("Successfully Updated");
         echo makeNavMenu("Pages", array("index.php" => "Home", "admin.php" => "Admin", "orderToysForm.php" => "Order", "credits.php" => "Credits"));
         echo startMain();

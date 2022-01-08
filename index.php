@@ -22,4 +22,3 @@ try {
     log_error($e);
 }
 ?>
-

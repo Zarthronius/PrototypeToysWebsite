@@ -14,26 +14,27 @@ try {
         echo startMain();
         echo "<h2>Toy List</h2>";
         echo "<p>Select a Toy to edit:</p>";
-            $dbConn = getConnection();
+        $dbConn = getConnection();
+        // Query to retrieve relevant data from NTL_toys table, ordered by toyName
+        $sqlQuery = "SELECT toyID, toyName, description, catDesc, toyPrice
+                FROM NTL_toys
+                INNER JOIN NTL_category
+                ON NTL_toys.catID = NTL_category.catID
+                ORDER BY toyName";
 
-            $sqlQuery = "SELECT toyID, toyName, description, catDesc, toyPrice
-                    FROM NTL_toys
-                    INNER JOIN NTL_category
-                    ON NTL_toys.catID = NTL_category.catID
-                    ORDER BY toyName";
+        $queryResult = $dbConn->query($sqlQuery);
 
-            $queryResult = $dbConn->query($sqlQuery);
-
-            while ($rowObj = $queryResult->fetchObject()) {
-                echo "<div class='toy'>\n
-                <h3 class='name'>\n
-                <a href='editToyForm.php?toyID={$rowObj->toyID}'>{$rowObj->toyName}</a>\n
-                </h3>\n
-                <p class='description'><strong>Description:</strong> {$rowObj->description}</p>\n
-                <p class='categoryDescription'><strong>Category Description:</strong> {$rowObj->catDesc}</p>\n
-                <p class='price'><strong>Price:</strong> £{$rowObj->toyPrice}</p>\n
-            </div>\n";
-            }
+        // For each toy, displays information appropriately with toyName linking to appropriate editToyForm.php info
+        while ($rowObj = $queryResult->fetchObject()) {
+            echo "<div class='toy'>\n
+            <h3 class='name'>\n
+            <a href='editToyForm.php?toyID={$rowObj->toyID}'>{$rowObj->toyName}</a>\n
+            </h3>\n
+            <p class='description'><strong>Description:</strong> {$rowObj->description}</p>\n
+            <p class='categoryDescription'><strong>Category Description:</strong> {$rowObj->catDesc}</p>\n
+            <p class='price'><strong>Price:</strong> £{$rowObj->toyPrice}</p>\n
+        </div>\n";
+        }
 
     }
     else {

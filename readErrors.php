@@ -6,11 +6,14 @@
 </head>
 <body>
 <?php
+// Opens error log file
 $fileHandle = fopen("error_log_file.log", "rb");
 
 while(!feof($fileHandle)) {
+    // Gets line from file
 	$line = fgets($fileHandle);
 
+    // Displays error message on page
 	if($line) {
 		$line = trim($line);
 		$part = explode('|', $line);
@@ -23,6 +26,7 @@ while(!feof($fileHandle)) {
 	}
 }
 
+// Closes log file
 fclose($fileHandle);
 ?>
 </body>
