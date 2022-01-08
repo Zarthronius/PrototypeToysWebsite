@@ -1,4 +1,4 @@
-<!--ONLY ADDED FUNCTIONALITY ARE CSS LINK, HTML FOR GRIDDING, NAVIGATION, LOGIN/LOGOUT, AND JS SCRIPT-->
+<!--ONLY ADDED FUNCTIONALITY ARE STYLESHEET, HTML FOR GRIDDING, NAV, LOGIN/LOGOUT, AND JS SCRIPT-->
 <?php
 ini_set("session.save_path", "/home/unn_w20016567/sessionData");
 session_start();
@@ -20,11 +20,7 @@ require_once('functions.php');
 echo makeNavMenu("Pages", array("index.php" => "Home", "admin.php" => "Admin", "orderToysForm.php" => "Order", "credits.php" => "Credits"));
 
 echo startAside();
-if (check_login()){
-    echo makeLogout();
-} else {
-    echo createLoginForm();
-}
+echo createLoginLogout();
 echo endAside();
 echo startMain();
 ?>

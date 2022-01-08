@@ -116,6 +116,14 @@ LOGOUT;
     return $output;
 }
 
+function createLoginLogout() {
+    if (check_login()) {
+        return makeLogout();
+    } else {
+        return createLoginForm();
+    }
+}
+
 function endMain() {
     return "</main>\n";
 }
@@ -134,7 +142,6 @@ function makePageEnd() {
     return "</div>\n</body>\n</html>";
 }
 
-///////////////////////////////////////////////////
 function exceptionHandler ($e) {
     echo "<p><strong>Problem occured</strong></p>";
     log_error($e);
