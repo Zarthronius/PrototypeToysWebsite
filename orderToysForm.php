@@ -1,16 +1,32 @@
+<!--ONLY ADDED FUNCTIONALITY ARE CSS LINK, HTML FOR GRIDDING, NAVIGATION, LOGIN/LOGOUT, AND JS SCRIPT-->
+<?php
+ini_set("session.save_path", "/home/unn_w20016567/sessionData");
+session_start();
+?>
 <!doctype html>
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
 	<title>Order Toys</title>
     <link href="stylesheet.css" rel="stylesheet" type="text/css">
-    <script type="text/javascript" src="orderToysJS.js"></script>
 </head>
 <body>
+<div id="gridContainer">
+<header>
 <h1>Order Toys</h1>
-<?php
+</header>
+    <?php
 require_once('functions.php');
 echo makeNavMenu("Pages", array("index.php" => "Home", "admin.php" => "Admin", "orderToysForm.php" => "Order", "credits.php" => "Credits"));
+
+echo startAside();
+if (check_login()){
+    echo makeLogout();
+} else {
+    echo createLoginForm();
+}
+echo endAside();
+echo startMain();
 ?>
 <form id="orderForm" action="javascript:alert('form submitted');" method="get">
 	<section id="orderToys">
@@ -67,5 +83,8 @@ catch (Exception $e) {
 	</section>
 </form>	
 <!-- Here you need to add Javascript or a link to a script (.js file) to process the form as required for task 4 of the assignment -->
+<script type="text/javascript" src="orderToysJS.js"></script>
+</main>
+</div>
 </body>
 </html>
