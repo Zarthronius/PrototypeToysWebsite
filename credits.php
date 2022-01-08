@@ -10,13 +10,13 @@ echo startAside();
 echo createLoginLogout();
 echo endAside();
 echo startMain();
-?>
+echo <<<CREDITS
 <h2>ME:</h2>
 <p><strong>Name:</strong> Zackary Allen</p>
 <p><strong>Student ID:</strong> W20016567</p>
 <h2>References</h2>
 <p>No additional resources outside of lecture and workshop material were required when creating this web page.</p>
-<?php
+CREDITS;
 echo endMain();
 echo makeFooter("This is a fictional site for Northumbria Toys Limited.");
 echo makePageEnd();
