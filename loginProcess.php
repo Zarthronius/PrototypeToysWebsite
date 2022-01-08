@@ -67,7 +67,7 @@ function validate_logon(){
             array_push($errors, "There was a problem: " . $e->getMessage());
         }
     }
-    return array ($input, $errors);
+    return $errors;
 }
 
 //converts error array to a string and returns it
@@ -87,7 +87,7 @@ try {
 
 
     echo startMain();
-    list ($input, $errors) = validate_logon();
+    $errors = validate_logon();
     // Display errors if found
     if (!empty($errors)) {
         echo "<h2>Login Failed</h2>\n";
