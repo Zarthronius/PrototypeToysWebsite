@@ -15,14 +15,16 @@ function getConnection(){
 // Creates Login form
 function createLoginForm(){
     $output = <<<Login
+    <div id = "login">
     <h2>Login</h2>
     <form method = "post" action = "loginProcess.php">
         <h3>Username</h3>
         <input type = "text" name = "username">
         <h3>Password</h3>
         <input type = "password" name = "password">
-        <input type = "submit" value = "Logon">
+        <input id="loginButton" type = "submit" value = "Log In">
     </form>
+    </div>
 Login;
 return $output;
 }
@@ -116,8 +118,10 @@ function startMain() {
 function makeLogout() {
     $username = get_session('username');
     $output = <<<LOGOUT
+    <div id="logout">
     <p>Logged in as: <strong>{$username}</strong></p>
-    <p><a href='logout.php'>Click here to log out</a></p>
+    <a id="logoutButton" href="logout.php"><button id="logoutButtonBack">Log Out</button></a>
+    </div>
 LOGOUT;
     $output .= "\n";
     return $output;

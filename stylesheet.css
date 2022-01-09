@@ -1,3 +1,4 @@
+/* Grid */
 #gridContainer {
     display: grid;
     grid-template-rows:[header] auto [content] auto [footer] auto;
@@ -8,6 +9,7 @@
     "footer footer footer";
 }
 
+/* Sections */
 header {
     grid-area: header;
 }
@@ -26,9 +28,38 @@ nav, main, aside {
 
 aside {
     grid-area: aside;
+    padding: 0px 10px;
 }
 
 footer {
     grid-area: footer;
     text-align: center;
+}
+
+/* IDs */
+#logoutButtonBack, #loginButton {
+    margin: 1em 0px;
+    width: 100%;
+}
+
+#logoutButton {
+    text-decoration: none;
+}
+
+#offers {
+    border-style: solid;
+    padding: 0px 1em;
+}
+
+#login, #logout {
+    margin: 10px 0px;
+}
+
+/* Element characteristics */
+input[name="username"], input[name="password"] {
+    width: 100%;
+}
+
+strong[name="errorText"] {
+    color: #FF0000;
 }

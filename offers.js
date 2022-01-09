@@ -1,18 +1,13 @@
 window.addEventListener('load', function () {
     "use strict";
 
-    //console.log("hi there!");
-
     const URL = 'getOffers.php';
 
     const fetchData = function () {
-
         fetch(URL)
-
             .then(
-                // Step 1. function needed here to process the response into JSON data
+                // Function to process the response into JSON data
                 function (response) {
-                    //console.log(response); CONSOLE DEBUGGER
 
                     if (response.status === 200){
                         return response.json();
@@ -22,7 +17,7 @@ window.addEventListener('load', function () {
                 }
             )
             .then(
-                // Step 2. function needed here to do something with the JSON data
+                // Function to convert JSON into HTML
                 function (json) {
                     document.getElementById("offers").innerHTML = "<h2>SPECIAL OFFERS</h2>";
                     document.getElementById("offers").innerHTML += "<p><strong>Toy Name:</strong> "+json.toyName+"</p>";
@@ -31,7 +26,7 @@ window.addEventListener('load', function () {
                 }
             )
             .catch(
-                // Step 3. function needed here to do something if there is an error
+                // Function to log error in console
                 function (err) {
                     console.log("Something went wrong!", err);
                 }

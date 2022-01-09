@@ -4,7 +4,7 @@ session_start();
 
 try {
     require_once('functions.php');
-    echo makePageStart("Admin","stylesheet.css");
+    echo makePageStart("NTL Admin","stylesheet.css");
     echo makeHeader("Admin");
     echo makeNavMenu("Pages", array("index.php" => "Home", "admin.php" => "Admin", "orderToysForm.php" => "Order", "credits.php" => "Credits"));
     echo startAside();

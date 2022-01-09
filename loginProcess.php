@@ -74,14 +74,14 @@ function validate_logon(){
 function show_errors($errors){
     $errorString = '';
     for ($i = 0; $i < sizeof($errors); $i++){
-        $errorString .= "<p><strong>Error:</strong> " . $errors[$i] . "</p>";
+        $errorString .= "<p><strong name='errorText'>Error:</strong> " . $errors[$i] . "</p>";
     }
     return $errorString;
 }
 
 try {
     require_once('functions.php');
-    echo makePageStart("Login", "stylesheet.css");
+    echo makePageStart("NTL Login", "stylesheet.css");
     echo makeHeader("Login");
     echo makeNavMenu("Pages", array("index.php" => "Home", "admin.php" => "Admin", "orderToysForm.php" => "Order", "credits.php" => "Credits"));
 

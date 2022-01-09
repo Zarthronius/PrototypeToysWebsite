@@ -153,7 +153,7 @@ function process_form($input){
 try {
     require_once("functions.php");
     $dbConn = getConnection();
-    echo makePageStart("Update Toy","stylesheet.css");
+    echo makePageStart("NTL Update Toy","stylesheet.css");
 
     list($input, $errors) = validate_form();
     if ($errors) { // Displays errors if any found

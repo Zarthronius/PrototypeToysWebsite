@@ -3,7 +3,7 @@ ini_set("session.save_path", "/home/unn_w20016567/sessionData");
 session_start();
 
 require_once('functions.php');
-echo makePageStart("Edit Toy","stylesheet.css");
+echo makePageStart("NTL Edit Toy","stylesheet.css");
 echo makeHeader("Edit Toy");
 echo makeNavMenu("Pages", array("index.php" => "Home", "admin.php" => "Admin", "orderToysForm.php" => "Order", "credits.php" => "Credits"));
 
@@ -43,8 +43,10 @@ if (check_login()) { // Only allows access if login was successful
                 echo "<h2>Update '{$rowObj->toyName}'</h2>\n";
 
                 echo "<form id='UpdateToy' action='updateToy.php' method='post'>\n
-                <p>Toy ID <input type='text' name='toyID' value='{$toyID}' readonly></p>\n
-                <p>Toy Name <input type='text' name='toyName' value='{$rowObj->toyName}'></p>\n
+                      <fieldset>\n
+                      <legend>Details</legend>\n
+                      <p>Toy ID <input type='text' name='toyID' value='{$toyID}' readonly></p>\n
+                      <p>Toy Name <input type='text' name='toyName' value='{$rowObj->toyName}'></p>\n
                 ";
 
                 // Populates Manufacturer field with manName using manID
@@ -79,8 +81,8 @@ if (check_login()) { // Only allows access if login was successful
 
                 echo "<p>Description <textarea name='description'>{$rowObj->description}</textarea></p>\n
                 
-                 <p>Toy Price £<input type='number' name='toyPrice' step='0.01' value='{$rowObj->toyPrice}'></p>\n
-                
+                <p>Toy Price £<input type='number' name='toyPrice' step='0.01' value='{$rowObj->toyPrice}'></p>\n
+                </fieldset>
                 <input type='submit' value='Update Toy'>\n
                 </form>\n";
             }
@@ -89,7 +91,7 @@ if (check_login()) { // Only allows access if login was successful
             log_error($e);
         }
     }
-} else { //User unable to access page if login failed and is prompted to do so
+} else { // User unable to access page if login failed and is prompted to do so
     echo createLoginForm();
     echo endAside();
     echo startMain();
